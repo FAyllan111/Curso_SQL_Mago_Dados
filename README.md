@@ -1,2 +1,2 @@
-# curso_SQL
+# Curso SQL
 Curso SQL Canal Theo Me Why

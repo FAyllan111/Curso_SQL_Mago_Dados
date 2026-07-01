@@ -85,6 +85,16 @@ WHERE IdProduto =15
 
 LIMIT 3;
 --Listar todas as transações adicionando uma coluna nova sinalizando “alto”, “médio” e “baixo” para o valor dos pontos [<10 ; <500; >=500] exercicio nivel mais alto
-SELECT *
+
+
+
+SELECT IdTransacao,
+        IdProduto,
+
+        CASE
+             WHEN vlProduto < 10 THEN 'Baixo'
+             WHEN vlProduto < 500 THEN 'Medio'
+             ELSE 'Alto'
+        END AS SinalizacaoTransacao
 
 FROM transacao_produto;

@@ -1,0 +1,26 @@
+{
+    "sqltools.useNodeRuntime": true,
+    "sqltools.connections": [
+        {
+            "dbType": "Custom",
+            "trimResult": true,
+            "previewLimit": 50,
+            "driver": "SqlTools Odbc",
+            "name": "FNORTE",
+            "connectionString": "TICONSULTA"
+        },
+        {
+            "connectionMethod": "DSN",
+            "odbcOptions": {
+                "dbms": "Auto-detect",
+                "showTblRecords": "DBMS"
+            },
+            "previewLimit": 50,
+            "driver": "SQLTools ODBC Driver",
+            "name": "PROD",
+            "username": "TICONSULTA",
+            "password": "T1CONSULT4B1",
+            "dsnString": "FNORTE"
+        }
+    ]
+}

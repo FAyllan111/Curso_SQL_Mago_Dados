@@ -1,4 +1,4 @@
---Quantos clientes tem email cadastrado?
+--1.Quantos clientes tem email cadastrado?
 SELECT sum(flEmail) as 'modo_1'
 
 FROM clientes;
@@ -6,55 +6,95 @@ FROM clientes;
 SELECT COUNT(*) AS 'modo2'
 
 FROM clientes
+
 WHERE flEmail = 1;
 
---Qual cliente juntou mais pontos positivos em 2025-05?
+--2.Qual cliente juntou mais pontos positivos em 2025-05?
 SELECT idCliente,
-        QtdePontos
+        SUM(QtdePontos) AS totalPontos
 
-FROM clientes
-WHERE QtdePontos >0 and DtCriacao >= '2025-05-01' AND DtCriacao >= '2025-06-01'
-ORDER BY QtdePontos DESC
+FROM transacoes
+
+WHERE QtdePontos > 0 
+AND DtCriacao >= '2025-05-01' 
+AND DtCriacao < '2025-06-01'
+
+GROUP BY idCliente
+
+ORDER BY totalPontos DESC
+
 LIMIT 1;
 
---Qual cliente fez mais transações no ano de 2024?
+--3.Qual cliente fez mais transações no ano de 2024?
 SELECT  idCliente,
         COUNT(IdCliente) as 'qtTransacoes'
 
 FROM transacoes
+
+WHERE DtCriacao >= '2024-01-01'
+AND DtCriacao < '2025-01-01'
+
 GROUP BY idCliente
+
 ORDER BY qtTransacoes DESC
+
 LIMIT 1;
 
---Quantos produtos são de rpg?
+--4.Quantos produtos são de rpg?
 SELECT DescCategoriaProduto,
         COUNT(*)
 
 FROM produtos
+
 WHERE DescCategoriaProduto = 'rpg';
 
---Qual o valor médio de pontos positivos por dia?
+--5.Qual o valor médio de pontos positivos por dia?
 
---SELECT AVG(qtdePontos),
+SELECT SUM(QtdePontos) AS totalPontos,
+        COUNT( DISTINCT substr(DtCriacao,1,10)) AS qtdDias,
+        SUM(QtdePontos)/COUNT( DISTINCT substr(DtCriacao,1,10)) AS medPontosDia
 
---WHERE qtdePontos > 0
---FROM transacoes
---GROUP BY DtCriacao;
+FROM transacoes
 
---Qual dia da semana quem mais pedidos em 2025?
+WHERE QtdePontos > 0;
 
 
---Qual o produto mais transacionado?
+--6.Qual dia da semana quem mais pedidos em 2025?
+
+SELECT IdTransacao,
+        strftime('%w',substr(DtCriacao,1,10)) as diaSemana,
+        COUNT(DISTINCT IdTransacao) AS qtdTransacoes
+
+FROM transacoes
+
+WHERE substr(DtCriacao,1,4) = '2025'
+
+GROUP BY diaSemana
+ORDER BY qtdTransacoes DESC
+LIMIT 1;
+
+
+--7.Qual o produto mais transacionado?
 SELECT IdProduto,
         count(idTransacaoProduto) as qtdTransacoes
 
 
 FROM transacao_produto
-ORDER BY qtdTransacoes DESC;
---Qual o produto com mais pontos transacionados?
+
+GROUP BY IdProduto
+
+ORDER BY qtdTransacoes DESC
+
+LIMIT 1;
+--8.Qual o produto com mais pontos transacionados?
 
 SELECT IdProduto,
-        SUM(QtdeProduto * vlProduto)  as qtdPontos
+        SUM(vlProduto)  as qtdPontos
 
 FROM transacao_produto
-ORDER BY qtdPontos;
+
+GROUP BY IdProduto
+
+ORDER BY qtdPontos DESC
+
+LIMIT 1;

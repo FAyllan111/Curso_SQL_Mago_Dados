@@ -89,7 +89,7 @@ LIMIT 1;
 --8.Qual o produto com mais pontos transacionados?
 
 SELECT IdProduto,
-        SUM(vlProduto)  as qtdPontos
+        SUM(vlProduto* QtdeProduto)  as qtdPontos
 
 FROM transacao_produto
 
